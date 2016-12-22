@@ -9,7 +9,8 @@
 /* Begin PBXBuildFile section */
 		35B5B9C41E0B1E790033ACE1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B5B9C31E0B1E790033ACE1 /* main.swift */; };
 		35B5B9D11E0B25650033ACE1 /* SemverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B5B9D01E0B25650033ACE1 /* SemverTests.swift */; };
-		35B5B9D61E0B258C0033ACE1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B5B9C31E0B1E790033ACE1 /* main.swift */; };
+		35B5B9D81E0C0EF10033ACE1 /* SemanticVersioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B5B9D71E0C0EF10033ACE1 /* SemanticVersioning.swift */; };
+		35B5B9D91E0C0F010033ACE1 /* SemanticVersioning.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B5B9D71E0C0EF10033ACE1 /* SemanticVersioning.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,11 +26,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		35B5B9C01E0B1E790033ACE1 /* Semantic Versioning */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Semantic Versioning"; sourceTree = BUILT_PRODUCTS_DIR; };
+		35B5B9C01E0B1E790033ACE1 /* semver */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = semver; sourceTree = BUILT_PRODUCTS_DIR; };
 		35B5B9C31E0B1E790033ACE1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		35B5B9CE1E0B25650033ACE1 /* SemverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SemverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		35B5B9D01E0B25650033ACE1 /* SemverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemverTests.swift; sourceTree = "<group>"; };
 		35B5B9D21E0B25650033ACE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		35B5B9D71E0C0EF10033ACE1 /* SemanticVersioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticVersioning.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -62,7 +64,7 @@
 		35B5B9C11E0B1E790033ACE1 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				35B5B9C01E0B1E790033ACE1 /* Semantic Versioning */,
+				35B5B9C01E0B1E790033ACE1 /* semver */,
 				35B5B9CE1E0B25650033ACE1 /* SemverTests.xctest */,
 			);
 			name = Products;
@@ -72,6 +74,7 @@
 			isa = PBXGroup;
 			children = (
 				35B5B9C31E0B1E790033ACE1 /* main.swift */,
+				35B5B9D71E0C0EF10033ACE1 /* SemanticVersioning.swift */,
 			);
 			path = "Semantic Versioning";
 			sourceTree = "<group>";
@@ -102,7 +105,7 @@
 			);
 			name = "Semantic Versioning";
 			productName = "Semantic Versioning";
-			productReference = 35B5B9C01E0B1E790033ACE1 /* Semantic Versioning */;
+			productReference = 35B5B9C01E0B1E790033ACE1 /* semver */;
 			productType = "com.apple.product-type.tool";
 		};
 		35B5B9CD1E0B25650033ACE1 /* SemverTests */ = {
@@ -178,6 +181,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				35B5B9C41E0B1E790033ACE1 /* main.swift in Sources */,
+				35B5B9D81E0C0EF10033ACE1 /* SemanticVersioning.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -185,7 +189,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				35B5B9D61E0B258C0033ACE1 /* main.swift in Sources */,
+				35B5B9D91E0C0F010033ACE1 /* SemanticVersioning.swift in Sources */,
 				35B5B9D11E0B25650033ACE1 /* SemverTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -285,7 +289,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = BHUD664HTA;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = semver;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
@@ -294,7 +298,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				DEVELOPMENT_TEAM = BHUD664HTA;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = semver;
 				SWIFT_VERSION = 3.0;
 			};
 			name = Release;

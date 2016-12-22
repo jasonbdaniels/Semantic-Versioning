@@ -9,6 +9,14 @@
 import XCTest
 
 class SemverTests: XCTestCase {
+	let major = 3
+	let minor = 12
+	let patch = 2
+	let pre = "alpha.1.a-b"
+	let meta = "2016-12-22-08-32"
+	var version: String {
+		return "\(major).\(minor).\(patch)-\(pre)+\(meta)"
+	}
     
     override func setUp() {
         super.setUp()
@@ -19,30 +27,41 @@ class SemverTests: XCTestCase {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
-    
-    func testMajor() {
-		let major = parse(major: "3.12.2")
+	
+	func testMake(){
+		let semver = Semver(major: major, minor: minor, patch: patch, pre: pre, meta: meta)
+		let semverString = semver.make()
 		
-		XCTAssert(major == 3)
+		XCTAssert(version == semverString)
+	}
+	
+    func testMajor() {
+		let parsedMajor = Semver.parse(major: version)
+		
+		XCTAssert(major == parsedMajor)
     }
 	
 	func testMinor() {
-		let minor = parse(minor: "3.12.2")
+		let parsedMinor = Semver.parse(minor: version)
 		
-		XCTAssert(minor == 12)
+		XCTAssert(minor == parsedMinor)
 	}
 	
 	func testPatch() {
-		let patch = parse(patch: "3.12.2")
+		let parsedPatch = Semver.parse(patch: version)
 		
-		XCTAssert(patch == 2)
+		XCTAssert(patch == parsedPatch)
 	}
 	
-    func testPerformanceExample() {
-        // This is an example of a performance test case.
-        self.measure {
-            // Put the code you want to measure the time of here.
-        }
-    }
-    
+	func testPre() {
+		let parsedPre = Semver.parse(pre: version)
+		
+		XCTAssert(pre == parsedPre)
+	}
+	
+	func testMeta() {
+		let parsedMeta = Semver.parse(meta: version)
+		
+		XCTAssert(meta == parsedMeta)
+	}
 }
