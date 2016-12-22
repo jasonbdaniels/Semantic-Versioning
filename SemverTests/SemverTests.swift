@@ -9,33 +9,20 @@
 import XCTest
 
 class SemverTests: XCTestCase {
-	var major = 3
-	var minor = 12
-	var patch = 2
-	var pre = "alpha.1.a-b"
-	var meta = "2016-12-22-08-32"
 	var version: String {
-		var output = "\(major).\(minor).\(patch)"
-		
-		if pre.characters.count > 0 {
-			output.append("-\(pre)")
-		}
-		
-		if meta.characters.count > 0 {
-			output.append("+\(meta)")
-		}
-		
-		return output
+		return semver.make() ?? "Invalid"
 	}
+	
+	var semver: Semver = Semver(major: 3, minor: 12, patch: 2, pre: "alpha.1.a-b", meta: "2016-12-22-08-32")
     
     override func setUp() {
         super.setUp()
 		
-		major = 3
-		minor = 12
-		patch = 2
-		pre = "alpha.1.a-b"
-		meta = "2016-12-22-08-32"
+		semver.major = 3
+		semver.minor = 12
+		semver.patch = 2
+		semver.pre = "alpha.1.a-b"
+		semver.meta = "2016-12-22-08-32"
     }
     
     override func tearDown() {
@@ -47,45 +34,51 @@ class SemverTests: XCTestCase {
 		let newValue = ""
 		let newSemver = Semver.set(part: .pre, newValue: newValue, semver: version)
 		
-		pre = newValue
+		semver.pre = newValue
 		
 		XCTAssert(newSemver == version)
 	}
 	
 	func testMake(){
-		let semver = Semver(major: major, minor: minor, patch: patch, pre: pre, meta: meta)
-		let semverString = semver.make()
+		semver.major = 3
+		semver.minor = 12
+		semver.patch = 2
+		semver.pre = "alpha.1.a-b"
+		semver.meta = "2016-12-22-08-32"
 		
-		XCTAssert(version == semverString)
+		let semverString = semver.make()
+		let validSemver = "\(semver.major).\(semver.minor!).\(semver.patch!)-\(semver.pre!)+\(semver.meta!)"
+		
+		XCTAssert(validSemver == semverString!)
 	}
 	
     func testMajor() {
 		let parsedMajor = Semver.parse(major: version)
 		
-		XCTAssert(major == parsedMajor)
+		XCTAssert(semver.major == parsedMajor)
     }
 	
 	func testMinor() {
 		let parsedMinor = Semver.parse(minor: version)
 		
-		XCTAssert(minor == parsedMinor)
+		XCTAssert(semver.minor == parsedMinor)
 	}
 	
 	func testPatch() {
 		let parsedPatch = Semver.parse(patch: version)
 		
-		XCTAssert(patch == parsedPatch)
+		XCTAssert(semver.patch == parsedPatch)
 	}
 	
 	func testPre() {
 		let parsedPre = Semver.parse(pre: version)
 		
-		XCTAssert(pre == parsedPre)
+		XCTAssert(semver.pre == parsedPre)
 	}
 	
 	func testMeta() {
 		let parsedMeta = Semver.parse(meta: version)
 		
-		XCTAssert(meta == parsedMeta)
+		XCTAssert(semver.meta == parsedMeta)
 	}
 }
