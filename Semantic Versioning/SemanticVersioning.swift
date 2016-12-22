@@ -123,6 +123,33 @@ public struct Semver {
 		
 		return ""
 	}
+	
+	internal static func set(part: Part, newValue: String, semver: String) -> String {
+		guard var major = Semver.parse(major: semver) else {
+			return ""
+		}
+		var minor = Semver.parse(minor: semver)
+		var patch = Semver.parse(patch: semver)
+		var pre = Semver.parse(pre: semver)
+		var meta = Semver.parse(meta: semver)
+		
+		switch part {
+		case .major:
+			major = Int(newValue) ?? major
+		case .minor:
+			minor = Int(newValue)
+		case .patch:
+			patch = Int(newValue)
+		case .pre:
+			pre = newValue
+		case .meta:
+			meta = newValue
+		}
+		
+		let semverStruct = Semver(major: major, minor: minor, patch: patch, pre: pre, meta: meta)
+		
+		return semverStruct.make() ?? semver
+	}
 }
 
 extension Semver: CustomStringConvertible {

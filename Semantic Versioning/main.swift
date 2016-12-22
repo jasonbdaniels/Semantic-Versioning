@@ -72,36 +72,12 @@ semver set <part> <new-value> <semver-string>
 */
 func set() -> String {
 	if CommandLine.arguments.count >= 5,
-		let command = Command(rawValue: CommandLine.arguments[2]) {
-		
+		let command = Command(rawValue: CommandLine.arguments[2]),
+		let part = command.semverPart {
 		let newValue = CommandLine.arguments[3]
 		let versionString = CommandLine.arguments[4]
-		guard var major = Semver.parse(major: versionString) else {
-			return ""
-		}
-		var minor = Semver.parse(minor: versionString)
-		var patch = Semver.parse(patch: versionString)
-		var pre = Semver.parse(pre: versionString)
-		var meta = Semver.parse(meta: versionString)
 		
-		switch command {
-		case .major:
-			major = Int(newValue) ?? major
-		case .minor:
-			minor = Int(newValue)
-		case .patch:
-			patch = Int(newValue)
-		case .pre:
-			pre = newValue
-		case .meta:
-			meta = newValue
-		default:
-			return ""
-		}
-		
-		let semver = Semver(major: major, minor: minor, patch: patch, pre: pre, meta: meta)
-		
-		return semver.make() ?? versionString
+		return Semver.set(part: part, newValue: newValue, semver: versionString)
 	}
 	
 	return ""
