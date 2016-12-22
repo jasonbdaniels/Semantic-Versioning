@@ -29,8 +29,8 @@ public struct Semver {
 	
 	public func make() -> String? {
 		let major = self.major
-		let minor = self.minor ?? 0
-		let patch = self.patch ?? 0
+		guard let minor = self.minor else {return nil}
+		guard let patch = self.patch else {return nil}
 		let semanticVersionSet = CharacterSet.semanticVersion
 		var versionString = "\(major).\(minor).\(patch)"
 		
