@@ -56,10 +56,10 @@ semver bump <part> <semver-string>
 
 #### Bumping Rules
 
-All rules cascade upnwards. For example, if *Rule 1* is applied then all rules greater than 1 will be applied appropriately. 
+All rules cascade upwards. For example, if *Rule 1* is applied then all rules greater than 1 will be applied appropriately. 
 
 1. Bumping major will set minor to zero.
-2. Bumping minor or seting minor to zero as a consequence of *Rule 1* will set patch to zero.
+2. Bumping minor or setting minor to zero as a consequence of *Rule 1* will set patch to zero.
 3. Bumping patch or setting patch to zero as a consequence of *Rule 2* will remove all trailling dot number seperators from the Pre-Version Information.
 
 ### Pre-version and Build Metatdata
