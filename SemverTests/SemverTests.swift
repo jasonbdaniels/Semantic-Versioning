@@ -9,24 +9,48 @@
 import XCTest
 
 class SemverTests: XCTestCase {
-	let major = 3
-	let minor = 12
-	let patch = 2
-	let pre = "alpha.1.a-b"
-	let meta = "2016-12-22-08-32"
+	var major = 3
+	var minor = 12
+	var patch = 2
+	var pre = "alpha.1.a-b"
+	var meta = "2016-12-22-08-32"
 	var version: String {
-		return "\(major).\(minor).\(patch)-\(pre)+\(meta)"
+		var output = "\(major).\(minor).\(patch)"
+		
+		if pre.characters.count > 0 {
+			output.append("-\(pre)")
+		}
+		
+		if meta.characters.count > 0 {
+			output.append("+\(meta)")
+		}
+		
+		return output
 	}
     
     override func setUp() {
         super.setUp()
-        // Put setup code here. This method is called before the invocation of each test method in the class.
+		
+		major = 3
+		minor = 12
+		patch = 2
+		pre = "alpha.1.a-b"
+		meta = "2016-12-22-08-32"
     }
     
     override func tearDown() {
         // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
+	
+	func testSet(){
+		let newValue = ""
+		let newSemver = Semver.set(part: .pre, newValue: newValue, semver: version)
+		
+		pre = newValue
+		
+		XCTAssert(newSemver == version)
+	}
 	
 	func testMake(){
 		let semver = Semver(major: major, minor: minor, patch: patch, pre: pre, meta: meta)
