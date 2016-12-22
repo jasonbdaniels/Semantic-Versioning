@@ -30,6 +30,17 @@ class SemverTests: XCTestCase {
         super.tearDown()
     }
 	
+	func testBump(){
+		let minor = 12
+		semver.minor = minor
+		let newSemver = Semver.bump(part: .minor, semver: version)
+		
+		semver.minor = 13
+		semver.patch = 0
+		
+		XCTAssert(newSemver == version)
+	}
+	
 	func testSet(){
 		let newValue = ""
 		let newSemver = Semver.set(part: .pre, newValue: newValue, semver: version)
