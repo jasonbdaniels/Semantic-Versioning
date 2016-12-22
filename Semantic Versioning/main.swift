@@ -83,19 +83,26 @@ func set() -> String {
 	return ""
 }
 
+func bump() -> String {
+	if CommandLine.argc >= 4,
+		let command = Command(rawValue: CommandLine.arguments[2]),
+		let part = command.semverPart {
+		let versionString = CommandLine.arguments[3]
+		
+		return Semver.bump(part: part, semver: versionString)
+	}
+	
+	return ""
+}
+
 if CommandLine.argc > 1,
 	let command = Command(rawValue: CommandLine.arguments[1]) {
 	
 	switch command {
-	case .make:
-		print(make())
-	case .major, .minor, .patch, .pre, .meta:
-		print(parse(commandPart: command))
-	case .bump:
-		print("bump version string")
-	case .set:
-		print(set())
-	case .version:
-		print("Version: 0.1\n\nCommand line tool used to perform operations on [semantic versions](http://semver.org). Current Implementation follows Semantic Versioning *2.0.0*")
+	case .make: print(make())
+	case .major, .minor, .patch, .pre, .meta: print(parse(commandPart: command))
+	case .bump: print(bump())
+	case .set: print(set())
+	case .version: print("Version: 0.1\n\nCommand line tool used to perform operations on [semantic versions](http://semver.org). Current Implementation follows Semantic Versioning *2.0.0*")
 	}
 }

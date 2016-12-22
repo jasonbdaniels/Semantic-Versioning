@@ -27,6 +27,24 @@ public struct Semver {
 	
 	//MARK: Making
 	
+	init(major: Int, minor: Int?, patch: Int?, pre: String?, meta: String?){
+		self.major = major
+		self.minor = minor
+		self.patch = patch
+		self.pre = pre
+		self.meta = meta
+	}
+	
+	init?(semver: String) {
+		guard let major = Semver.parse(major: semver) else {return nil}
+		
+		self.major = major
+		self.minor = Semver.parse(minor: semver)
+		self.patch = Semver.parse(patch: semver)
+		self.pre = Semver.parse(pre: semver)
+		self.meta = Semver.parse(meta: semver)
+	}
+	
 	public func make() -> String? {
 		let major = self.major
 		guard let minor = self.minor else {return nil}
@@ -118,47 +136,94 @@ public struct Semver {
 	
 	//MARK: Mutating
 	
-	internal static func bump(semver: String, part: Part) -> String {
-		
-		
-		return ""
-	}
-	
-	internal static func set(part: Part, newValue: String, semver: String) -> String {
-		guard var major = Semver.parse(major: semver) else {
-			return ""
-		}
-		var minor = Semver.parse(minor: semver)
-		var patch = Semver.parse(patch: semver)
-		var pre = Semver.parse(pre: semver)
-		var meta = Semver.parse(meta: semver)
+	internal static func bump(part: Part, semver: String) -> String {
+		guard var version = Semver(semver: semver) else {return ""}
 		
 		switch part {
 		case .major:
-			major = Int(newValue) ?? major
+			version.major += 1
+			version.minor = 0
+			version.patch = 0
 		case .minor:
-			minor = Int(newValue)
+			version.minor = (version.minor ?? -1) + 1
+			version.patch = 0
 		case .patch:
-			patch = Int(newValue)
+			version.patch = (version.patch ?? -1) + 1
 		case .pre:
-			pre = newValue
+			let pre = version.pre ?? "0"
+			let preParts = pre.components(separatedBy: ".")
+			var removalIndices = [Int]()
+			
+			for (index, part) in preParts.enumerated().reversed() {
+				if let _ = Int(part) {
+					removalIndices.append(index)
+				}
+				else {
+					break
+				}
+			}
+			
+			
+			
+			break
 		case .meta:
-			meta = newValue
+			break
 		}
 		
-		let semverStruct = Semver(major: major, minor: minor, patch: patch, pre: pre, meta: meta)
+		return version.make() ?? semver
+	}
+	
+	internal static func set(part: Part, newValue: String, semver: String) -> String {
+		guard var version = Semver(semver: semver) else {return ""}
 		
-		return semverStruct.make() ?? semver
+		switch part {
+		case .major:
+			version.major = Int(newValue) ?? version.major
+		case .minor:
+			version.minor = Int(newValue)
+		case .patch:
+			version.patch = Int(newValue)
+		case .pre:
+			version.pre = newValue
+		case .meta:
+			version.meta = newValue
+		}
+		
+		return version.make() ?? semver
+	}
+}
+
+extension String {
+	func removingTrailingDotNumbers() -> String {
+		let selfParts = self.components(separatedBy: ".")
+		var removalCount: Int = 0
+		
+		for part in selfParts.reversed() {
+			if let _ = Int(part) {
+				removalCount += 1
+			}
+			else {
+				break
+			}
+		}
+		
+		if selfParts.count - removalCount > 0 {
+			var newSelf: String = selfParts[0]
+			
+			for index in 1..<(selfParts.count - removalCount) {
+				newSelf.append(".\(selfParts[index])")
+			}
+			
+			return newSelf
+		}
+		
+		return ""
 	}
 }
 
 extension Semver: CustomStringConvertible {
 	public var description: String {
-		guard let version = self.make() else {
-			return "Invalid parts."
-		}
-		
-		return version
+		return self.make() ?? "Invalid parts"
 	}
 }
 
