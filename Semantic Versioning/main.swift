@@ -9,14 +9,15 @@
 import Foundation
 
 enum Command: String {
-	case make	= "make"
-	case major	= "major"
-	case minor	= "minor"
-	case patch	= "patch"
-	case pre	= "pre"
-	case meta	= "meta"
-	case bump	= "bump"
-	case set	= "set"
+	case make	 = "make"
+	case major	 = "major"
+	case minor	 = "minor"
+	case patch	 = "patch"
+	case pre	 = "pre"
+	case meta	 = "meta"
+	case bump	 = "bump"
+	case set	 = "set"
+	case version = "version"
 }
 
 extension Command {
@@ -118,5 +119,7 @@ if CommandLine.argc > 1,
 		print("bump version string")
 	case .set:
 		print(set())
+	case .version:
+		print("Version: 0.1\n\nCommand line tool used to perform operations on [semantic versions](http://semver.org). Current Implementation follows Semantic Versioning *2.0.0*")
 	}
 }
