@@ -1,6 +1,6 @@
 # Semantic Versioning Tool
 
-Command line tool used to perform operations on [semantic versions](http://semver.org).
+Command line tool used to perform operations on [semantic versions](http://semver.org). Current Implementation follows Semantic Versioning *2.0.0*
 
 ## Major
 
@@ -28,8 +28,16 @@ semver patch <semver-number>
 
 ## Pre-release
 
-To get the pre-release info execute
+To get the pre-release info, if any, execute
 
 ```
 semver pre <semver-number>
+```
+
+## Build Metadata
+
+To get the build metadata, if any, execute
+
+```
+semver meta <semver-number>
 ```

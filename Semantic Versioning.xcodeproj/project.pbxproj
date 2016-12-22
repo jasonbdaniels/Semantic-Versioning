@@ -8,6 +8,8 @@
 
 /* Begin PBXBuildFile section */
 		35B5B9C41E0B1E790033ACE1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B5B9C31E0B1E790033ACE1 /* main.swift */; };
+		35B5B9D11E0B25650033ACE1 /* SemverTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B5B9D01E0B25650033ACE1 /* SemverTests.swift */; };
+		35B5B9D61E0B258C0033ACE1 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 35B5B9C31E0B1E790033ACE1 /* main.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,10 +27,20 @@
 /* Begin PBXFileReference section */
 		35B5B9C01E0B1E790033ACE1 /* Semantic Versioning */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "Semantic Versioning"; sourceTree = BUILT_PRODUCTS_DIR; };
 		35B5B9C31E0B1E790033ACE1 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		35B5B9CE1E0B25650033ACE1 /* SemverTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SemverTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		35B5B9D01E0B25650033ACE1 /* SemverTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SemverTests.swift; sourceTree = "<group>"; };
+		35B5B9D21E0B25650033ACE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		35B5B9BD1E0B1E790033ACE1 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		35B5B9CB1E0B25650033ACE1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -42,6 +54,7 @@
 			isa = PBXGroup;
 			children = (
 				35B5B9C21E0B1E790033ACE1 /* Semantic Versioning */,
+				35B5B9CF1E0B25650033ACE1 /* SemverTests */,
 				35B5B9C11E0B1E790033ACE1 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -50,6 +63,7 @@
 			isa = PBXGroup;
 			children = (
 				35B5B9C01E0B1E790033ACE1 /* Semantic Versioning */,
+				35B5B9CE1E0B25650033ACE1 /* SemverTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -60,6 +74,15 @@
 				35B5B9C31E0B1E790033ACE1 /* main.swift */,
 			);
 			path = "Semantic Versioning";
+			sourceTree = "<group>";
+		};
+		35B5B9CF1E0B25650033ACE1 /* SemverTests */ = {
+			isa = PBXGroup;
+			children = (
+				35B5B9D01E0B25650033ACE1 /* SemverTests.swift */,
+				35B5B9D21E0B25650033ACE1 /* Info.plist */,
+			);
+			path = SemverTests;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -82,6 +105,23 @@
 			productReference = 35B5B9C01E0B1E790033ACE1 /* Semantic Versioning */;
 			productType = "com.apple.product-type.tool";
 		};
+		35B5B9CD1E0B25650033ACE1 /* SemverTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 35B5B9D31E0B25650033ACE1 /* Build configuration list for PBXNativeTarget "SemverTests" */;
+			buildPhases = (
+				35B5B9CA1E0B25650033ACE1 /* Sources */,
+				35B5B9CB1E0B25650033ACE1 /* Frameworks */,
+				35B5B9CC1E0B25650033ACE1 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SemverTests;
+			productName = SemverTests;
+			productReference = 35B5B9CE1E0B25650033ACE1 /* SemverTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -93,6 +133,11 @@
 				ORGANIZATIONNAME = "Daniels, Jason";
 				TargetAttributes = {
 					35B5B9BF1E0B1E790033ACE1 = {
+						CreatedOnToolsVersion = 8.2;
+						DevelopmentTeam = BHUD664HTA;
+						ProvisioningStyle = Automatic;
+					};
+					35B5B9CD1E0B25650033ACE1 = {
 						CreatedOnToolsVersion = 8.2;
 						DevelopmentTeam = BHUD664HTA;
 						ProvisioningStyle = Automatic;
@@ -112,9 +157,20 @@
 			projectRoot = "";
 			targets = (
 				35B5B9BF1E0B1E790033ACE1 /* Semantic Versioning */,
+				35B5B9CD1E0B25650033ACE1 /* SemverTests */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		35B5B9CC1E0B25650033ACE1 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		35B5B9BC1E0B1E790033ACE1 /* Sources */ = {
@@ -122,6 +178,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				35B5B9C41E0B1E790033ACE1 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		35B5B9CA1E0B25650033ACE1 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				35B5B9D61E0B258C0033ACE1 /* main.swift in Sources */,
+				35B5B9D11E0B25650033ACE1 /* SemverTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -234,6 +299,34 @@
 			};
 			name = Release;
 		};
+		35B5B9D41E0B25650033ACE1 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = BHUD664HTA;
+				INFOPLIST_FILE = SemverTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tools.SemverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 3.0;
+			};
+			name = Debug;
+		};
+		35B5B9D51E0B25650033ACE1 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				DEVELOPMENT_TEAM = BHUD664HTA;
+				INFOPLIST_FILE = SemverTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = com.tools.SemverTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -251,6 +344,14 @@
 			buildConfigurations = (
 				35B5B9C81E0B1E790033ACE1 /* Debug */,
 				35B5B9C91E0B1E790033ACE1 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		35B5B9D31E0B25650033ACE1 /* Build configuration list for PBXNativeTarget "SemverTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				35B5B9D41E0B25650033ACE1 /* Debug */,
+				35B5B9D51E0B25650033ACE1 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 		};
