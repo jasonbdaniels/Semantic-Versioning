@@ -199,7 +199,7 @@ extension Int {
 
 extension String {
 	mutating func semverIncrement() {
-		let dotNumberInfo = self.trailingDotNumbers()
+		let dotNumberInfo = self.trailingDotNumbers(maxCount: 1)
 		guard let lastNumber = dotNumberInfo.numbers.last else { self.append(".1"); return }
 		let dotNumbers = dotNumberInfo.numbers.dropLast().reduce("", { (result: String, number: Int) -> String in
 			result.appending(".\(number)")
@@ -208,13 +208,17 @@ extension String {
 		self.replaceSubrange(dotNumberInfo.range, with: dotNumbers.appending(".\(lastNumber + 1)"))
 	}
 	
-	func trailingDotNumbers() -> (range: Range<String.Index>, numbers: [Int]) {
+	func trailingDotNumbers(maxCount: Int = Int.max) -> (range: Range<String.Index>, numbers: [Int]) {
 		let selfParts = self.components(separatedBy: ".")
 		var numbers = [Int]()
 		
 		for part in selfParts.reversed() {
 			if let number = Int(notZeroPadded: part) {
 				numbers.insert(number, at: 0)
+				
+				if numbers.count == maxCount {
+					break
+				}
 			}
 			else {
 				break
