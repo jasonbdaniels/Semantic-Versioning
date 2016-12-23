@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "35B5B9BF1E0B1E790033ACE1"
-               BuildableName = "Semantic Versioning"
+               BuildableName = "semver"
                BlueprintName = "Semantic Versioning"
                ReferencedContainer = "container:Semantic Versioning.xcodeproj">
             </BuildableReference>
@@ -33,7 +33,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "35B5B9BF1E0B1E790033ACE1"
-            BuildableName = "Semantic Versioning"
+            BuildableName = "semver"
             BlueprintName = "Semantic Versioning"
             ReferencedContainer = "container:Semantic Versioning.xcodeproj">
          </BuildableReference>
@@ -56,7 +56,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "35B5B9BF1E0B1E790033ACE1"
-            BuildableName = "Semantic Versioning"
+            BuildableName = "semver"
             BlueprintName = "Semantic Versioning"
             ReferencedContainer = "container:Semantic Versioning.xcodeproj">
          </BuildableReference>
@@ -75,7 +75,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "35B5B9BF1E0B1E790033ACE1"
-            BuildableName = "Semantic Versioning"
+            BuildableName = "semver"
             BlueprintName = "Semantic Versioning"
             ReferencedContainer = "container:Semantic Versioning.xcodeproj">
          </BuildableReference>

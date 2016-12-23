@@ -139,34 +139,33 @@ public struct Semver {
 	internal static func bump(part: Part, semver: String) -> String {
 		guard var version = Semver(semver: semver) else {return ""}
 		
+		//Proposition
 		switch part {
 		case .major:
 			version.major += 1
-			version.minor = 0
-			version.patch = 0
 		case .minor:
 			version.minor = (version.minor ?? -1) + 1
-			version.patch = 0
 		case .patch:
 			version.patch = (version.patch ?? -1) + 1
 		case .pre:
-			let pre = version.pre ?? "0"
-			let preParts = pre.components(separatedBy: ".")
-			var removalIndices = [Int]()
-			
-			for (index, part) in preParts.enumerated().reversed() {
-				if let _ = Int(part) {
-					removalIndices.append(index)
-				}
-				else {
-					break
-				}
-			}
-			
-			
-			
+			//increment last dot number OR add a dot number
 			break
 		case .meta:
+			//increment last dot number OR add a dot number
+			break
+		}
+		
+		//Consequence
+		switch part {
+		case .major:
+			version.minor = 0
+			fallthrough
+		case .major, .minor:
+			version.patch = 0
+			fallthrough
+		case .major, .minor, .patch:
+			version.pre = version.pre?.removingTrailingDotNumbers()
+		case .pre, .meta:
 			break
 		}
 		
@@ -193,13 +192,26 @@ public struct Semver {
 	}
 }
 
+extension Int {
+	init?(notZeroPadded: String){
+		if notZeroPadded.characters.first == "0" { return nil}
+		self.init(notZeroPadded)
+	}
+}
+
 extension String {
+//	func trailingDotNumbers() -> (start: Int, numbers: [Int]) {
+//		self.replace
+//		
+//		return (0, [Int]())
+//	}
+	
 	func removingTrailingDotNumbers() -> String {
 		let selfParts = self.components(separatedBy: ".")
 		var removalCount: Int = 0
 		
 		for part in selfParts.reversed() {
-			if let _ = Int(part) {
+			if let _ = Int(notZeroPadded: part) {
 				removalCount += 1
 			}
 			else {
