@@ -29,6 +29,28 @@ class SemverTests: XCTestCase {
         super.tearDown()
     }
 	
+	func testStringSemverIncrement(){
+		var semverPart = "alpha.2.1"
+		
+		semverPart.semverIncrement()
+		XCTAssert("alpha.2.2" == semverPart)
+	}
+	
+	func testTrailingDotNumbers(){
+		let numbers = [2, 3]
+		let dotNumbers = numbers.reduce("") { (result: String, number: Int) -> String in
+			result.appending(".\(number)")
+		}
+		let trailingDotNumbers = "alpha.1-rc\(dotNumbers)"
+		let dotNumberInfo = trailingDotNumbers.trailingDotNumbers()
+		let upperBound = trailingDotNumbers.endIndex
+		let lowerBound = trailingDotNumbers.index(upperBound, offsetBy: -dotNumbers.characters.count)
+		
+		XCTAssert(dotNumberInfo.range.lowerBound == lowerBound)
+		XCTAssert(dotNumberInfo.range.upperBound == upperBound)
+		XCTAssert(dotNumberInfo.numbers == numbers)
+	}
+	
 	func testRemoveTrailingDots(){
 		let lessTrailingDots = "alpha.1-rc.2.3".removingTrailingDotNumbers()
 		

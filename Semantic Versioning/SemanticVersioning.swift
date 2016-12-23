@@ -148,11 +148,9 @@ public struct Semver {
 		case .patch:
 			version.patch = (version.patch ?? -1) + 1
 		case .pre:
-			//increment last dot number OR add a dot number
-			break
+			version.pre?.semverIncrement()
 		case .meta:
-			//increment last dot number OR add a dot number
-			break
+			version.meta?.semverIncrement()
 		}
 		
 		//Consequence
@@ -200,11 +198,34 @@ extension Int {
 }
 
 extension String {
-//	func trailingDotNumbers() -> (start: Int, numbers: [Int]) {
-//		self.replace
-//		
-//		return (0, [Int]())
-//	}
+	mutating func semverIncrement() {
+		let dotNumberInfo = self.trailingDotNumbers()
+		guard let lastNumber = dotNumberInfo.numbers.last else { self.append(".1"); return }
+		let dotNumbers = dotNumberInfo.numbers.dropLast().reduce("", { (result: String, number: Int) -> String in
+			result.appending(".\(number)")
+		})
+		
+		self.replaceSubrange(dotNumberInfo.range, with: dotNumbers.appending(".\(lastNumber + 1)"))
+	}
+	
+	func trailingDotNumbers() -> (range: Range<String.Index>, numbers: [Int]) {
+		let selfParts = self.components(separatedBy: ".")
+		var numbers = [Int]()
+		
+		for part in selfParts.reversed() {
+			if let number = Int(notZeroPadded: part) {
+				numbers.insert(number, at: 0)
+			}
+			else {
+				break
+			}
+		}
+		
+		let lowerBound = self.index(self.endIndex, offsetBy: -2*numbers.count)
+		let numberRange = lowerBound..<self.endIndex
+		
+		return (numberRange, numbers)
+	}
 	
 	func removingTrailingDotNumbers() -> String {
 		let selfParts = self.components(separatedBy: ".")
