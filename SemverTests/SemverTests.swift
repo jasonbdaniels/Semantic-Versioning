@@ -26,17 +26,24 @@ class SemverTests: XCTestCase {
     }
     
     override func tearDown() {
-        // Put teardown code here. This method is called after the invocation of each test method in the class.
         super.tearDown()
     }
 	
-	func testBump(){
-		let minor = 12
-		semver.minor = minor
+	func testRemoveTrailingDots(){
+		let lessTrailingDots = "alpha.1-rc.2.3".removingTrailingDotNumbers()
+		
+		XCTAssert(lessTrailingDots == "alpha.1-rc")
+	}
+	
+	func testBumpMinor(){
+		semver.minor = 12
+		semver.pre = "alpha.1.2"
+		semver.meta = "00101"
 		let newSemver = Semver.bump(part: .minor, semver: version)
 		
 		semver.minor = 13
 		semver.patch = 0
+		semver.pre = "alpha"
 		
 		XCTAssert(newSemver == version)
 	}
