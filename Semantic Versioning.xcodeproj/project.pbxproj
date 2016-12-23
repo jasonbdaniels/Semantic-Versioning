@@ -34,6 +34,7 @@
 		35B5B9D21E0B25650033ACE1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		35B5B9D71E0C0EF10033ACE1 /* SemanticVersioning.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SemanticVersioning.swift; sourceTree = "<group>"; };
 		35F9D6311E0D904C0061431F /* VersionInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VersionInfo.swift; sourceTree = "<group>"; };
+		35F9D6351E0DA0EB0061431F /* version.info */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = version.info; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +76,7 @@
 		35B5B9C21E0B1E790033ACE1 /* Semantic Versioning */ = {
 			isa = PBXGroup;
 			children = (
+				35F9D6351E0DA0EB0061431F /* version.info */,
 				35B5B9C31E0B1E790033ACE1 /* main.swift */,
 				35B5B9D71E0C0EF10033ACE1 /* SemanticVersioning.swift */,
 				35F9D6311E0D904C0061431F /* VersionInfo.swift */,
@@ -98,6 +100,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 35B5B9C71E0B1E790033ACE1 /* Build configuration list for PBXNativeTarget "Semantic Versioning" */;
 			buildPhases = (
+				35F9D6361E0DAF0C0061431F /* Set Version */,
 				35B5B9BC1E0B1E790033ACE1 /* Sources */,
 				35B5B9BD1E0B1E790033ACE1 /* Frameworks */,
 				35B5B9BE1E0B1E790033ACE1 /* CopyFiles */,
@@ -177,6 +180,23 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		35F9D6361E0DAF0C0061431F /* Set Version */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Set Version";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "path=\"$SRCROOT/$PROJECT_NAME\"\ncd \"$path\"\necho \"let VERSION = \\\"$(cat version.info)\\\"\" > VersionInfo.swift";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		35B5B9BC1E0B1E790033ACE1 /* Sources */ = {
