@@ -35,7 +35,7 @@ class SemverTests: XCTestCase {
 		XCTAssert(lessTrailingDots == "alpha.1-rc")
 	}
 	
-	func testBumpMinor(){
+	func testBumpMinorPreDotNumbers(){
 		semver.minor = 12
 		semver.pre = "alpha.1.2"
 		semver.meta = "00101"
@@ -44,6 +44,18 @@ class SemverTests: XCTestCase {
 		semver.minor = 13
 		semver.patch = 0
 		semver.pre = "alpha"
+		
+		XCTAssert(newSemver == version)
+	}
+	
+	func testBumpMinorPrePaddedZero(){
+		semver.minor = 12
+		semver.pre = "00101"
+		let newSemver = Semver.bump(part: .minor, semver: version)
+		
+		semver.minor = 13
+		semver.patch = 0
+		semver.pre = "00101"
 		
 		XCTAssert(newSemver == version)
 	}
