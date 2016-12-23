@@ -90,6 +90,20 @@ class SemverTests: XCTestCase {
 		XCTAssert(newSemver == version)
 	}
 	
+	func testBumpSimpleMinor(){
+		semver.major = 1
+		semver.minor = 0
+		semver.patch = nil
+		semver.pre = nil
+		semver.meta = nil
+		
+		XCTAssert(version == "1.0")
+		
+		let bumpedVersion = Semver.bump(part: .minor, semver: version)
+		
+		XCTAssert("1.1.0" == bumpedVersion)
+	}
+	
 	func testSet(){
 		let newValue = ""
 		let newSemver = Semver.set(part: .pre, newValue: newValue, semver: version)

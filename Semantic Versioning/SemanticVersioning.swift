@@ -46,11 +46,16 @@ public struct Semver {
 	}
 	
 	public func make() -> String? {
-		let major = self.major
-		guard let minor = self.minor else {return nil}
-		guard let patch = self.patch else {return nil}
+		var versionString = "\(self.major)"
 		let semanticVersionSet = CharacterSet.semanticVersion
-		var versionString = "\(major).\(minor).\(patch)"
+		
+		if let minor = self.minor {
+			versionString.append(".\(minor)")
+		}
+		
+		if let patch = self.patch {
+			versionString.append(".\(patch)")
+		}
 		
 		if let pre = self.pre, pre.characters.count > 0 {
 			if pre.trimmingCharacters(in: semanticVersionSet).characters.count == 0 {
@@ -110,7 +115,7 @@ public struct Semver {
 	internal static func parse(part: Part, from semver: String) -> String? {
 		let version: String
 		let preVersion: String?
-		let versionMetaParts = semver.components(separatedBy: "+")
+		var versionMetaParts = semver.components(separatedBy: "+")
 		let versionPart = versionMetaParts[0]
 		
 		if let preInfoRange = versionPart.range(of: "-") {
@@ -130,7 +135,7 @@ public struct Semver {
 		case .pre:
 			return preVersion
 		case .meta:
-			return versionMetaParts.last
+			return versionMetaParts.count > 1 ? versionMetaParts.last : nil
 		}
 	}
 	
