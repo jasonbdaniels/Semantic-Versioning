@@ -103,6 +103,6 @@ if CommandLine.argc > 1,
 	case .major, .minor, .patch, .pre, .meta: print(parse(commandPart: command))
 	case .bump: print(bump())
 	case .set: print(set())
-	case .version: print("Version: 0.1\n\nCommand line tool used to perform operations on [semantic versions](http://semver.org). Current Implementation follows Semantic Versioning *2.0.0*")
+	case .version: print("Version: \(VERSION)\n\nCommand line tool used to perform operations on [semantic versions](http://semver.org). Current Implementation follows Semantic Versioning *2.0.0*")
 	}
 }
