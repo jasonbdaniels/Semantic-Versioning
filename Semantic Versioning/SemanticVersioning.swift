@@ -49,12 +49,13 @@ public struct Semver {
 		var versionString = "\(self.major)"
 		let semanticVersionSet = CharacterSet.semanticVersion
 		
-		if let minor = self.minor {
-			versionString.append(".\(minor)")
-		}
-		
-		if let patch = self.patch {
-			versionString.append(".\(patch)")
+		switch (minor, patch) {
+		case (.some(let minor), .some(let patch)):
+			versionString.append(".\(minor).\(patch)")
+		case (.none, .some(let patch)):
+			versionString.append(".0.\(patch)")
+		default:
+			break
 		}
 		
 		if let pre = self.pre, pre.characters.count > 0 {
