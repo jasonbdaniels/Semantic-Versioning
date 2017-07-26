@@ -267,9 +267,9 @@ extension Semver {
 			case .major:
 				version.major += 1
 			case .minor:
-				version.minor = (version.minor ?? -1) + 1
+				version.minor = (version.minor ?? 0) + 1
 			case .patch:
-				version.patch = (version.patch ?? -1) + 1
+				version.patch = (version.patch ?? 0) + 1
 			case .pre:
 				version.pre?.semverIncrement()
 			case .meta:
@@ -279,13 +279,21 @@ extension Semver {
 			//Consequence
 			switch part {
 			case .major:
-				version.minor = 0
+				if version.minor != nil {
+					version.minor = 0
+				}
+				
 				fallthrough
 			case .major, .minor:
-				version.patch = 0
+				if version.patch != nil {
+					version.patch = 0
+				}
+				
 				fallthrough
 			case .major, .minor, .patch:
-				version.pre = version.pre?.removingTrailingDotNumbers()
+				if version.pre != nil {
+					version.pre = version.pre?.removingTrailingDotNumbers()
+				}
 			case .pre, .meta:
 				break
 			}
