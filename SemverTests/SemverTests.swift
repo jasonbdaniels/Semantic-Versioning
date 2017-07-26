@@ -104,6 +104,25 @@ class SemverTests: XCTestCase {
 		XCTAssert("1.1.0" == bumpedVersion)
 	}
 	
+	func testBumpNotExistingPart() {
+		semver.major = 1
+		semver.minor = nil
+		semver.patch = nil
+		semver.pre = nil
+		semver.meta = nil
+		
+		XCTAssert(version == "1")
+		
+		let bumpedVersion = Semver.Mutator.bump(part: .minor, semver: version)
+		
+		XCTAssert("1.1" == bumpedVersion)
+		
+		let oneDotOne = Semver(semver: bumpedVersion)!
+		let bumpedPatch = Semver.Mutator.bump(part: .patch, semver: bumpedVersion)
+		
+		XCTAssert("1.1.1" == bumpedPatch)
+	}
+	
 	func testSet(){
 		let newValue = ""
 		let newSemver = Semver.Mutator.set(part: .pre, newValue: newValue, semver: version)
