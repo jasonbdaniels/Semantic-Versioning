@@ -36,13 +36,13 @@ public struct Semver {
 	}
 	
 	init?(semver: String) {
-		guard let major = Semver.parse(major: semver) else {return nil}
+		guard let major = Parser.major(from: semver) else {return nil}
 		
 		self.major = major
-		self.minor = Semver.parse(minor: semver)
-		self.patch = Semver.parse(patch: semver)
-		self.pre = Semver.parse(pre: semver)
-		self.meta = Semver.parse(meta: semver)
+		minor = Parser.minor(from: semver)
+		patch = Parser.patch(from: semver)
+		pre = Parser.pre(from: semver)
+		meta = Parser.meta(from: semver)
 	}
 	
 	public func make() -> String? {
@@ -77,132 +77,32 @@ public struct Semver {
 		
 		return versionString
 	}
-	
-	//MARK: Parsing
-	
-	public static func parse(major semver: String) -> Int? {
-		guard let major = parse(part: .major, from: semver) else {
-			return nil
-		}
-		
-		return Int(major)
-	}
-	
-	public static func parse(minor semver: String) -> Int? {
-		guard let minor = parse(part: .minor, from: semver) else {
-			return nil
-		}
-		
-		return Int(minor)
-	}
-	
-	public static func parse(patch semver: String) -> Int? {
-		guard let patch = parse(part: .patch, from: semver) else {
-			return nil
-		}
-		
-		return Int(patch)
-	}
-	
-	public static func parse(pre semver: String) -> String? {
-		return parse(part: .pre, from: semver)
-	}
-	
-	public static func parse(meta semver: String) -> String? {
-		return parse(part: .meta, from: semver)
-	}
-	
-	internal static func parse(part: Part, from semver: String) -> String? {
-		let version: String
-		let preVersion: String?
-		var versionMetaParts = semver.components(separatedBy: "+")
-		let versionPart = versionMetaParts[0]
-		
-		if let preInfoRange = versionPart.range(of: "-") {
-			version = versionPart.substring(to: preInfoRange.lowerBound)
-			preVersion = versionPart.substring(from: preInfoRange.upperBound)
-		}
-		else {
-			version = versionPart
-			preVersion = nil
-		}
-		
-		switch part {
-		case .major, .minor, .patch:
-			let versionParts = version.components(separatedBy: ".")
-			
-			return part.rawValue < versionParts.count ? versionParts[part.rawValue] : nil
-		case .pre:
-			return preVersion
-		case .meta:
-			return versionMetaParts.count > 1 ? versionMetaParts.last : nil
-		}
-	}
-	
-	//MARK: Mutating
-	
-	internal static func bump(part: Part, semver: String) -> String {
-		guard var version = Semver(semver: semver) else {return ""}
-		
-		//Proposition
-		switch part {
-		case .major:
-			version.major += 1
-		case .minor:
-			version.minor = (version.minor ?? -1) + 1
-		case .patch:
-			version.patch = (version.patch ?? -1) + 1
-		case .pre:
-			version.pre?.semverIncrement()
-		case .meta:
-			version.meta?.semverIncrement()
-		}
-		
-		//Consequence
-		switch part {
-		case .major:
-			version.minor = 0
-			fallthrough
-		case .major, .minor:
-			version.patch = 0
-			fallthrough
-		case .major, .minor, .patch:
-			version.pre = version.pre?.removingTrailingDotNumbers()
-		case .pre, .meta:
-			break
-		}
-		
-		return version.make() ?? semver
-	}
-	
-	internal static func set(part: Part, newValue: String, semver: String) -> String {
-		guard var version = Semver(semver: semver) else {return ""}
-		
-		switch part {
-		case .major:
-			version.major = Int(newValue) ?? version.major
-		case .minor:
-			version.minor = Int(newValue)
-		case .patch:
-			version.patch = Int(newValue)
-		case .pre:
-			version.pre = newValue
-		case .meta:
-			version.meta = newValue
-		}
-		
-		return version.make() ?? semver
-	}
 }
 
 extension Int {
-	init?(notZeroPadded: String){
-		if notZeroPadded.characters.first == "0" { return nil}
+	internal init?(notZeroPadded: String){
+		let characters = notZeroPadded.characters
+		if characters.count > 1 && characters.first == "0" { return nil}
 		self.init(notZeroPadded)
 	}
 }
 
 extension String {
+	var intValue: Int? {
+		return Int(notZeroPadded: self)
+	}
+	
+	fileprivate var dotComponents: [String] {
+		return components(separatedBy: ".")
+	}
+	
+	fileprivate func dotComponent(at index: Int) -> String? {
+		let components = dotComponents
+		let indexInbounds = (components.startIndex..<components.endIndex).contains(index)
+		
+		return indexInbounds ? components[index] : nil
+	}
+	
 	mutating func semverIncrement() {
 		let dotNumberInfo = self.trailingDotNumbers(maxCount: 1)
 		guard let lastNumber = dotNumberInfo.numbers.last else { self.append(".1"); return }
@@ -271,11 +171,145 @@ extension Semver: CustomStringConvertible {
 
 extension CharacterSet {
 	public static var semanticVersion: CharacterSet {
-		var characters = CharacterSet()
+		var characters = CharacterSet.alphanumerics
 		
-		characters.formUnion(CharacterSet.alphanumerics)
 		characters.insert(charactersIn: ".-")
 		
 		return characters
+	}
+}
+
+extension Semver {
+	struct Parser {
+		fileprivate static func major(from semver: String) -> Int? {
+			let major = string(for: .major, from: semver)
+			
+			return major?.intValue
+		}
+		
+		fileprivate static func minor(from semver: String) -> Int? {
+			let minor = string(for: .minor, from: semver)
+			
+			return minor?.intValue
+		}
+		
+		fileprivate static func patch(from semver: String) -> Int? {
+			let patch = string(for: .patch, from: semver)
+			
+			return patch?.intValue
+		}
+		
+		fileprivate static func pre(from semver: String, forComponentAt index: Int? = nil) -> String? {
+			let pre = string(for: .pre, from: semver)
+			
+			return dotComponent(from: pre, at: index)
+		}
+		
+		fileprivate static func meta(from semver: String, forComponentAt index: Int? = nil) -> String? {
+			let meta = string(for: .meta, from: semver)
+			
+			return dotComponent(from: meta, at: index)
+		}
+		
+		fileprivate static func dotComponent(from other: String?, at index: Int? = nil) -> String? {
+			if let index = index {
+				return other?.dotComponent(at: index)
+			}
+			else {
+				return other
+			}
+		}
+		
+		internal static func subString(for part: Part, from semver: String, at index: Int? = nil) -> String? {
+			switch part {
+			case .pre: return pre(from: semver, forComponentAt: index)
+			case .meta: return meta(from: semver, forComponentAt: index)
+			default: return nil
+			}
+		}
+		
+		internal static func string(for part: Part, from semver: String) -> String? {
+			let version: String
+			let preVersion: String?
+			var versionMetaParts = semver.components(separatedBy: "+")
+			let versionPart = versionMetaParts[0]
+			
+			if let preInfoRange = versionPart.range(of: "-") {
+				version = versionPart.substring(to: preInfoRange.lowerBound)
+				preVersion = versionPart.substring(from: preInfoRange.upperBound)
+			}
+			else {
+				version = versionPart
+				preVersion = nil
+			}
+			
+			switch part {
+			case .major, .minor, .patch:
+				let versionParts = version.components(separatedBy: ".")
+				
+				return part.rawValue < versionParts.count ? versionParts[part.rawValue] : nil
+			case .pre:
+				return preVersion
+			case .meta:
+				return versionMetaParts.count > 1 ? versionMetaParts.last : nil
+			}
+		}
+	}
+}
+
+extension Semver {
+	struct Mutator {
+		internal static func bump(part: Part, semver: String) -> String {
+			guard var version = Semver(semver: semver) else {return ""}
+			
+			//Proposition
+			switch part {
+			case .major:
+				version.major += 1
+			case .minor:
+				version.minor = (version.minor ?? -1) + 1
+			case .patch:
+				version.patch = (version.patch ?? -1) + 1
+			case .pre:
+				version.pre?.semverIncrement()
+			case .meta:
+				version.meta?.semverIncrement()
+			}
+			
+			//Consequence
+			switch part {
+			case .major:
+				version.minor = 0
+				fallthrough
+			case .major, .minor:
+				version.patch = 0
+				fallthrough
+			case .major, .minor, .patch:
+				version.pre = version.pre?.removingTrailingDotNumbers()
+			case .pre, .meta:
+				break
+			}
+			
+			return version.make() ?? semver
+		}
+		
+		internal static func set(part: Part, newValue: String, semver: String) -> String {
+			guard var version = Semver(semver: semver) else {return ""}
+			
+			switch part {
+			case .major:
+				version.major = Int(newValue) ?? version.major
+			case .minor:
+				version.minor = Int(newValue)
+			case .patch:
+				version.patch = Int(newValue)
+			case .pre:
+				version.pre = newValue
+			case .meta:
+				version.meta = newValue
+			}
+			
+			return version.make() ?? semver
+		}
 	}
 }
