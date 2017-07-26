@@ -59,7 +59,7 @@ class SemverTests: XCTestCase {
 	
 	func testBumpPre(){
 		semver.pre = "alpha.1.2"
-		let newSemver = Semver.bump(part: .pre, semver: version)
+		let newSemver = Semver.Mutator.bump(part: .pre, semver: version)
 		semver.pre = "alpha.1.3"
 		
 		XCTAssert(version == newSemver)
@@ -69,7 +69,7 @@ class SemverTests: XCTestCase {
 		semver.minor = 12
 		semver.pre = "alpha.1.2"
 		semver.meta = "00101"
-		let newSemver = Semver.bump(part: .minor, semver: version)
+		let newSemver = Semver.Mutator.bump(part: .minor, semver: version)
 		
 		semver.minor = 13
 		semver.patch = 0
@@ -81,7 +81,7 @@ class SemverTests: XCTestCase {
 	func testBumpMinorPrePaddedZero(){
 		semver.minor = 12
 		semver.pre = "00101"
-		let newSemver = Semver.bump(part: .minor, semver: version)
+		let newSemver = Semver.Mutator.bump(part: .minor, semver: version)
 		
 		semver.minor = 13
 		semver.patch = 0
@@ -99,14 +99,14 @@ class SemverTests: XCTestCase {
 		
 		XCTAssert(version == "1.0")
 		
-		let bumpedVersion = Semver.bump(part: .minor, semver: version)
+		let bumpedVersion = Semver.Mutator.bump(part: .minor, semver: version)
 		
 		XCTAssert("1.1.0" == bumpedVersion)
 	}
 	
 	func testSet(){
 		let newValue = ""
-		let newSemver = Semver.set(part: .pre, newValue: newValue, semver: version)
+		let newSemver = Semver.Mutator.set(part: .pre, newValue: newValue, semver: version)
 		
 		semver.pre = newValue
 		
@@ -127,32 +127,44 @@ class SemverTests: XCTestCase {
 	}
 	
     func testMajor() {
-		let parsedMajor = Semver.parse(major: version)
+		let parsedMajor = Semver.Parser.string(for: .major, from: version)
 		
-		XCTAssert(semver.major == parsedMajor)
+		XCTAssert(semver.major == parsedMajor?.intValue)
     }
 	
 	func testMinor() {
-		let parsedMinor = Semver.parse(minor: version)
+		let parsedMinor = Semver.Parser.string(for: .minor, from: version)
 		
-		XCTAssert(semver.minor == parsedMinor)
+		XCTAssert(semver.minor == parsedMinor?.intValue)
 	}
 	
 	func testPatch() {
-		let parsedPatch = Semver.parse(patch: version)
+		let parsedPatch = Semver.Parser.string(for: .patch, from: version)
 		
-		XCTAssert(semver.patch == parsedPatch)
+		XCTAssert(semver.patch == parsedPatch?.intValue)
 	}
 	
 	func testPre() {
-		let parsedPre = Semver.parse(pre: version)
+		let parsedPre = Semver.Parser.string(for: .pre, from: version)
 		
 		XCTAssert(semver.pre == parsedPre)
 	}
 	
 	func testMeta() {
-		let parsedMeta = Semver.parse(meta: version)
+		let parsedMeta = Semver.Parser.string(for: .meta, from: version)
 		
 		XCTAssert(semver.meta == parsedMeta)
+	}
+	
+	func testPreSubpart() {
+		let parsedPreSubpart = Semver.Parser.subString(for: .pre, from: version, at: 2)
+		
+		XCTAssert("a-b" == parsedPreSubpart)
+	}
+	
+	func testMetaSubpart() {
+		let parsedMetaSubpart = Semver.Parser.subString(for: .meta, from: version, at: 0)
+		
+		XCTAssert(semver.meta == parsedMetaSubpart)
 	}
 }
