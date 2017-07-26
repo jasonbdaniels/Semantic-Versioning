@@ -1,1 +1,1 @@
-let VERSION = "1.0-alpha.4"
+let VERSION = "1.0-beta"
