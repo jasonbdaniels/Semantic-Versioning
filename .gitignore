@@ -5,6 +5,8 @@
 ## Build generated
 build/
 DerivedData/
+semver.dSYM
+semver.swiftmodule
 
 ## Various settings
 *.pbxuser

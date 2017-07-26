@@ -322,6 +322,7 @@
 		35B5B9C91E0B1E790033ACE1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CONFIGURATION_BUILD_DIR = "$(SRCROOT)";
 				DEVELOPMENT_TEAM = BHUD664HTA;
 				PRODUCT_NAME = semver;
 				SWIFT_VERSION = 3.0;
