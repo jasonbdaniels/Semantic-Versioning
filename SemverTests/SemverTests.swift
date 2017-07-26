@@ -123,6 +123,18 @@ class SemverTests: XCTestCase {
 		XCTAssert("1.1.1" == bumpedPatch)
 	}
 	
+	func testBumpPatch() {
+		semver.major = 1
+		semver.minor = nil
+		semver.patch = nil
+		semver.pre = nil
+		semver.meta = nil
+		
+		let bumpedVersion = Semver.Mutator.bump(part: .patch, semver: version)
+		
+		XCTAssert("1.0.1" == bumpedVersion)
+	}
+	
 	func testSet(){
 		let newValue = ""
 		let newSemver = Semver.Mutator.set(part: .pre, newValue: newValue, semver: version)
